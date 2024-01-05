@@ -1,5 +1,7 @@
-import { createContext, useCallback, useContext, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { CartProductType } from "../product/[productId]/partials/ProductDetails";
+import { useLocalStorage } from "./useLocalStorage";
+import { toast } from 'react-hot-toast';
 
 type Cart = {
     cartTotalQty: number
@@ -17,6 +19,14 @@ export const CartContextProvider = (props: Props) => {
 
     const [cartTotalQty, setCartTotalQty] = useState(0);
     const [cartProducts, setCartProducts] = useState<CartProductType[] | null>(null);
+    const { setItem, getItem } = useLocalStorage('eShopCartItems');
+
+    useEffect(() => {
+        const jsonCartItems = getItem();
+        const savedCartProducts: CartProductType[] | null = JSON.parse(jsonCartItems);
+
+        setCartProducts(savedCartProducts);
+    }, []);
 
     const handleAddProductToCart = useCallback((product: CartProductType) => {
         setCartProducts((prev) => {
@@ -28,6 +38,8 @@ export const CartContextProvider = (props: Props) => {
                 updatedProducts = [product]
             }
 
+            toast.success('Successfully added product to cart!')
+            setItem(JSON.stringify(updatedProducts));
             return updatedProducts
         })
     }, [])

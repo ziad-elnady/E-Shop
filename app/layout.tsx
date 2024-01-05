@@ -4,6 +4,7 @@ import { Nunito } from 'next/font/google'
 import Nav from './components/nav/Nav'
 import Footer from './components/footer/Footer'
 import CartProvider from '../providers/CartProvider'
+import { Toaster } from 'react-hot-toast'
 
 const nunito = Nunito({ subsets: ['latin'], weight: ['400', '700'] })
 
@@ -21,7 +22,12 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${nunito.className} text-black`}>
         <CartProvider>
-
+          <Toaster toastOptions={{
+            style: {
+              background: '#000',
+              color: '#fff',
+            }
+          }} />
           <div className="flex flex-col min-h-screen">
             <Nav />
             <main className="flex-grow"> {children} </main>

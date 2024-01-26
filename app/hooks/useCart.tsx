@@ -7,6 +7,9 @@ type Cart = {
     cartTotalQty: number
     cartProducts: CartProductType[] | null
     handleAddProductToCart: (product: CartProductType) => void
+    handleRemoveProductFromCart: (product: CartProductType) => void
+    handleCartQtyIncrease: (product: CartProductType) => void
+    handleCartQtyDecrease: (product: CartProductType) => void
 }
 
 export const CartContext = createContext<Cart | null>(null);
@@ -42,12 +45,69 @@ export const CartContextProvider = (props: Props) => {
             setItem(JSON.stringify(updatedProducts));
             return updatedProducts
         })
-    }, [])
+    }, [cartProducts]);
+
+    const handleRemoveProductFromCart = useCallback((product: CartProductType) => {
+        if (cartProducts) {
+            // filters the list by getting all the other products that doesn't containt the same id of the product
+            const filteredProducts = cartProducts.filter((item) => { item.id !== product.id });
+            setCartProducts(filteredProducts);
+            toast.success('Product removed')
+            setItem(JSON.stringify(filteredProducts));
+        }
+    }, [cartProducts]);
+
+    const handleCartQtyIncrease = useCallback((product: CartProductType) => {
+        let updatedCart;
+
+        if (product.quantity === 99) {
+            return toast.error('Oops! maximum reached')
+        }
+
+        if (cartProducts) {
+            updatedCart = [...cartProducts]
+
+            const existingIndex = cartProducts.findIndex((item) => item.id === product.id)
+
+            if (existingIndex > -1) {
+                updatedCart[existingIndex].quantity += 1
+            }
+
+            setCartProducts(updatedCart);
+            setItem(JSON.stringify(updatedCart))
+        }
+
+    }, [cartProducts])
+
+    const handleCartQtyDecrease = useCallback((product: CartProductType) => {
+        let updatedCart;
+
+        if (product.quantity < 2) {
+            return toast.error('Oops! minimum reached')
+        }
+
+        if (cartProducts) {
+            updatedCart = [...cartProducts]
+
+            const existingIndex = cartProducts.findIndex((item) => item.id === product.id)
+
+            if (existingIndex > -1) {
+                updatedCart[existingIndex].quantity -= 1
+            }
+
+            setCartProducts(updatedCart);
+            setItem(JSON.stringify(updatedCart))
+        }
+
+    }, [cartProducts])
 
     const value = {
         cartTotalQty,
         cartProducts,
-        handleAddProductToCart
+        handleAddProductToCart,
+        handleRemoveProductFromCart,
+        handleCartQtyIncrease,
+        handleCartQtyDecrease
     }
 
     return <CartContext.Provider value={value} {...props} />

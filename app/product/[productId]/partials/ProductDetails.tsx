@@ -1,7 +1,6 @@
 "use client";
 
 import { Rating } from "@mui/material";
-import { iphone12 } from "../../../../utils/product";
 import { calculateRating } from "../../../../utils/rating";
 import { useCallback, useEffect, useState } from "react";
 import ColorPicker from "../../../components/products/ColorPicker";

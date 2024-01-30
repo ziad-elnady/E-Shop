@@ -42,7 +42,7 @@ export const CartContextProvider = (props: Props) => {
 	useEffect(() => {
 		const savedCartProducts: CartProductType[] = JSON.parse(getItem('eShopCartItems'));
 		setCartProducts(savedCartProducts);
-	}, []); // eslint-disable-line react-hooks/exhaustive-deps
+	}, []);
 
 	useEffect(() => {
 		const calculateTotals = (cartProducts: CartProductType[]) => {
@@ -82,8 +82,8 @@ export const CartContextProvider = (props: Props) => {
 	};
 
 	const handleRemoveProductFromCart = (product: CartProductType) => {
-		if (cartProducts && cartProducts.length > 0) {
-			// filters the list by getting all the other products that doesn't containt the same id of the product
+		if (cartProducts && cartProducts.length > 1) {
+			// filters the list by getting all the other products that doesn't contain the same id of the product
 			const filteredProducts = cartProducts.filter((item) => item.id !== product.id);
 			setCartProducts(filteredProducts);
 			toast.success('Product removed');
@@ -92,11 +92,12 @@ export const CartContextProvider = (props: Props) => {
 	};
 
 	const handleCartQtyIncrease = (product: CartProductType) => {
-		let updatedCart;
 
 		if (product.quantity === 99) {
 			return toast.error('Oops! maximum reached');
 		}
+
+		let updatedCart;
 
 		if (cartProducts && cartProducts.length > 0) {
 			updatedCart = [...cartProducts];
@@ -116,7 +117,7 @@ export const CartContextProvider = (props: Props) => {
 		let updatedCart;
 
 		if (product.quantity < 2) {
-			return handleRemoveProductFromCart(product);
+			return toast.error('This is the last one!');
 		}
 
 		if (cartProducts && cartProducts.length > 0) {

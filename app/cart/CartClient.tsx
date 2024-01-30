@@ -6,12 +6,13 @@ import { MdArrowBack } from "react-icons/md";
 import Heading from "../components/heading/Heading";
 import Button from "../components/button/Button";
 import ProductRow from "./ProductRow";
+import { formatPrice } from "../../utils/format-price";
 
 const CartClient = () => {
 
-    const { cartProductsList, handleClearCart } = useCart();
+    const { cartProducts, cartTotalAmount, handleClearCart } = useCart();
 
-    if (!cartProductsList || cartProductsList.length === 0) {
+    if (!cartProducts || cartProducts.length === 0) {
         return (
             <div className="flex flex-col items-center">
                 <div className="text-2xl">Your cart is empty</div>
@@ -36,7 +37,7 @@ const CartClient = () => {
             </div>
 
             <div>
-                {cartProductsList && cartProductsList.map((product) => {
+                {cartProducts && cartProducts.map((product) => {
                     return <ProductRow key={product.id} product={product} />;
                 })}
             </div>
@@ -48,7 +49,7 @@ const CartClient = () => {
                 <div className="text-sm flex flex-col gap-1 items-start">
                     <div className="flex justify-between w-full text-base font-semibold">
                         <span>Subtotal</span>
-                        <span>$1000</span>
+                        <span>{formatPrice(cartTotalAmount)}</span>
                     </div>
                     <p className="text-slate-500">Taxes and Shipping are calculated at checkout</p>
                     <Button label="Checkout" onClick={() => { }} />

@@ -9,9 +9,9 @@ import ProductRow from "./ProductRow";
 
 const CartClient = () => {
 
-    const { cartProducts, handleClearCart } = useCart();
+    const { cartProductsList, handleClearCart } = useCart();
 
-    if (!cartProducts || cartProducts.length === 0) {
+    if (!cartProductsList || cartProductsList.length === 0) {
         return (
             <div className="flex flex-col items-center">
                 <div className="text-2xl">Your cart is empty</div>
@@ -36,7 +36,7 @@ const CartClient = () => {
             </div>
 
             <div>
-                {cartProducts && cartProducts.map((product) => {
+                {cartProductsList && cartProductsList.map((product) => {
                     return <ProductRow key={product.id} product={product} />;
                 })}
             </div>

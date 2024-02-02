@@ -7,6 +7,9 @@ import Heading from "../components/heading/Heading";
 import Button from "../components/button/Button";
 import Input from "../components/inputs/input";
 import Link from "next/link";
+import { signIn } from "next-auth/react";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 
 const LoginForm = () => {
@@ -18,9 +21,26 @@ const LoginForm = () => {
         }
     });
 
+    const router = useRouter()
+
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         setIsLoading(true);
-        console.log(data);
+        signIn('credentials', {
+            ...data,
+            redirect: false
+        }).then((callback) => {
+            setIsLoading(false)
+
+            if (callback?.ok) {
+                router.push('/cart')
+                router.refresh()
+                toast.success('Logged in')
+            }
+
+            if (callback?.error) {
+                toast.error(callback.error)
+            }
+        })
     }
 
     return (

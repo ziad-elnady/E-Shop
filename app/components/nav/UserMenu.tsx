@@ -7,8 +7,13 @@ import Link from 'next/link'
 import MenuItem from './MenuItem'
 import { signOut } from 'next-auth/react'
 import Backdrop from './Backdrop'
+import { SafeUser } from '../../../types/safeuser'
 
-const UserMenu = () => {
+type UserMenuProps = {
+    currentUser: SafeUser | null
+}
+
+const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
 
     const [isOpen, setIsOpen] = useState(false)
 
@@ -26,38 +31,40 @@ const UserMenu = () => {
                 {
                     isOpen && (
                         <div className='absolute z-30 shadow-md rounded-md w-[170px] bg-white overflow-hidden top-16 right-2 text-sm text-black flex flex-col cursor-pointer'>
-                            <div>
-                                <Link href="/orders">
-                                    <MenuItem onClick={toggleOpen}>
-                                        Your Orders
-                                    </MenuItem>
-                                </Link>
-                                <Link href="/admin">
-                                    <MenuItem onClick={toggleOpen}>
-                                        Admin Dashboard
-                                    </MenuItem>
-                                </Link>
 
-                                <MenuItem onClick={() => {
-                                    toggleOpen
-                                    signOut()
-                                }}>
-                                    Log out
-                                </MenuItem>
-                            </div>
+                            {currentUser ?
 
-                            <div>
-                                <Link href="/login">
-                                    <MenuItem onClick={toggleOpen}>
-                                        Login
+                                <div>
+                                    <Link href="/orders">
+                                        <MenuItem onClick={toggleOpen}>
+                                            Your Orders
+                                        </MenuItem>
+                                    </Link>
+                                    <Link href="/admin">
+                                        <MenuItem onClick={toggleOpen}>
+                                            Admin Dashboard
+                                        </MenuItem>
+                                    </Link>
+                                    <hr />
+                                    <MenuItem onClick={() => {
+                                        toggleOpen
+                                        signOut()
+                                    }}>
+                                        Log out
                                     </MenuItem>
-                                </Link>
-                                <Link href="/register">
-                                    <MenuItem onClick={toggleOpen}>
-                                        Register
-                                    </MenuItem>
-                                </Link>
-                            </div>
+                                </div> : <div>
+                                    <Link href="/login">
+                                        <MenuItem onClick={toggleOpen}>
+                                            Login
+                                        </MenuItem>
+                                    </Link>
+                                    <Link href="/register">
+                                        <MenuItem onClick={toggleOpen}>
+                                            Register
+                                        </MenuItem>
+                                    </Link>
+                                </div>
+                            }
                         </div>
                     )
                 }

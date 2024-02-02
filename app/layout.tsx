@@ -5,6 +5,7 @@ import Nav from './components/nav/Nav'
 import Footer from './components/footer/Footer'
 import CartProvider from '../providers/CartProvider'
 import { Toaster } from 'react-hot-toast'
+import { getCurrentUser } from '../actions/getCurrentUser'
 
 const nunito = Nunito({ subsets: ['latin'], weight: ['400', '700'] })
 
@@ -18,6 +19,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+
   return (
     <html lang="en">
       <body className={`${nunito.className} text-black`}>

@@ -4,10 +4,14 @@ import SearchBar from './search-bar/SearchBar'
 import { Redressed } from 'next/font/google'
 import CartCount from './CartCount'
 import UserMenu from './UserMenu'
+import { getCurrentUser } from '../../../actions/getCurrentUser'
 
 const redressed = Redressed({ subsets: ['latin'], weight: ['400'] })
 
-const Nav = () => {
+const Nav = async () => {
+
+    const currentUser = await getCurrentUser()
+
     return (
         <div className="sticky top-0 w-full bg-black text-white z-30 shadow-sm">
             <div className="py-4">
@@ -17,7 +21,7 @@ const Nav = () => {
                         <SearchBar />
                         <div className="flex items-center gap-8 md:gap-12">
                             <CartCount />
-                            <UserMenu />
+                            <UserMenu currentUser={currentUser} />
                         </div>
                     </div>
                 </Container>

@@ -72,7 +72,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ currentUser }) => {
     return (
         <>
             <Heading title="Sign up for E-Shop" />
-            <Button outline label="Sign up with Google" onClick={() => { }} icon={AiOutlineGoogle} />
+            <Button outline label="Continue with Google" onClick={() => { signIn('google') }} icon={AiOutlineGoogle} />
             <hr className="bg-slate-300 w-full h-1px" />
             <Input id="name" label="Name" disabled={isLoading} register={register} errors={errors} required />
             <Input id="email" label="Email" disabled={isLoading} register={register} errors={errors} required />

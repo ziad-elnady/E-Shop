@@ -61,7 +61,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ currentUser }) => {
     return (
         <>
             <Heading title="Log in to E-Shop" />
-            <Button outline label="Log in with Google" onClick={() => { }} icon={AiOutlineGoogle} />
+            <Button outline label="Log in with Google" onClick={() => { signIn('google') }} icon={AiOutlineGoogle} />
             <hr className="bg-slate-300 w-full h-1px" />
             <Input id="email" label="Email" disabled={isLoading} register={register} errors={errors} required />
             <Input id="password" label="Password" disabled={isLoading} register={register} errors={errors} required type="password" />

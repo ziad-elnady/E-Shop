@@ -8,7 +8,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
     apiVersion: '2023-10-16'
 })
 
-// more secure calculation of the cart's total price
+// more secure calculation of the cart's total price 
 const calculateOrderPrice = (items: CartProductType[]) => {
     const totalPrice = items.reduce((acc, item) => {
         const itemTotal = item.price * item.quantity

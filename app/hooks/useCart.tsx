@@ -46,10 +46,10 @@ export const CartContextProvider = (props: Props) => {
 	const [paymentIntent, setPaymentInent] = useState<string | null>(null)
 
 	useEffect(() => {
-		const savedCartProducts: CartProductType[] = JSON.parse(getItem('eShopCartItems'));
-		setCartProducts(savedCartProducts);
-		const paymentIntent = getItem('eShopPaymentIntent')
+		const savedCartProducts: CartProductType[] = JSON.parse(getItem('eShopCartItems'))
+		setCartProducts(savedCartProducts)
 
+		const paymentIntent = getItem('eShopPaymentIntent')
 		setPaymentInent(paymentIntent)
 	}, []);
 
